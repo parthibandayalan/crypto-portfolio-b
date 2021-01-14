@@ -8,10 +8,7 @@ import com.cryptoportfolio.cryptoportfoliob.dto.UserRegistrationDTO;
 import com.cryptoportfolio.cryptoportfoliob.entity.Portfolio;
 
 @Mapper(componentModel = "spring")
-public interface PortfolioMapper {
-
-	@Mapping(target = "coins", ignore = true)
-	Portfolio toEntity(UserRegistrationDTO registrationDTO);
+public interface PortfolioMapper {	
 
 	PortfolioDTO toDTO(Portfolio portfolio);
 }
