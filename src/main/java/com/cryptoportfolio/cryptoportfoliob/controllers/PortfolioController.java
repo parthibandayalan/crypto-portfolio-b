@@ -28,9 +28,8 @@ public class PortfolioController {
 	PortfolioService portfolioService;
 	@Autowired
 	PortfolioMapper portfolioMapper;
-	
+
 	Logger logger = LoggerFactory.getLogger(PortfolioController.class);
-	
 
 	@GetMapping("portfolios")
 	public Collection<Portfolio> getHelloWorld() {
@@ -41,29 +40,28 @@ public class PortfolioController {
 	public ResponseEntity<Object> getPortfolioById(@PathVariable("username") String username) {
 		return portfolioService.getPortfolioByUsername(username);
 	}
-	
+
 	@PostMapping("/coins/add")
-	public ResponseEntity<String> addCoins(@RequestBody Map<String, Object> payload){
+	public ResponseEntity<String> addCoins(@RequestBody Map<String, Object> payload) {
 		String coin = payload.get("coin").toString();
 		String tokens = payload.get("tokens").toString();
 		String username = payload.get("username").toString();
 		logger.info("Cookie read : " + payload.toString());
-		return portfolioService.addCoin(coin,tokens,username);
+		return portfolioService.addCoin(coin, tokens, username);
 	}
-	
+
 	@PostMapping("/coins/remove")
-	public ResponseEntity<String> removeCoins(@RequestBody Map<String, Object> payload){
-		String coin = payload.get("coin").toString();		
+	public ResponseEntity<String> removeCoins(@RequestBody Map<String, Object> payload) {
+		String coin = payload.get("coin").toString();
 		String username = payload.get("username").toString();
-		return portfolioService.removeCoin(coin,username);
+		return portfolioService.removeCoin(coin, username);
 	}
 
 	@PostMapping("/portfolio/create")
 	public ResponseEntity<String> insertPortfolio(@RequestBody UserRegistrationDTO user) {
 
-		if (user.getPassword().equals(user.getPasswordConfirmation())) {
-			Portfolio portfolio = portfolioMapper.toEntity(user);
-			return portfolioService.createPortfolio(portfolio);
+		if (user.getPassword().equals(user.getPasswordConfirmation())) {			
+			return portfolioService.createPortfolio(new Portfolio(user));
 		} else {
 			return ResponseEntity.badRequest().body("Password dont match");
 		}
