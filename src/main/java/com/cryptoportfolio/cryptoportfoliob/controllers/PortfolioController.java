@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,6 +28,9 @@ public class PortfolioController {
 	PortfolioService portfolioService;
 	@Autowired
 	PortfolioMapper portfolioMapper;
+	
+	Logger logger = LoggerFactory.getLogger(PortfolioController.class);
+	
 
 	@GetMapping("portfolios")
 	public Collection<Portfolio> getHelloWorld() {
@@ -42,6 +47,7 @@ public class PortfolioController {
 		String coin = payload.get("coin").toString();
 		String tokens = payload.get("tokens").toString();
 		String username = payload.get("username").toString();
+		logger.info("Cookie read : " + payload.toString());
 		return portfolioService.addCoin(coin,tokens,username);
 	}
 	
