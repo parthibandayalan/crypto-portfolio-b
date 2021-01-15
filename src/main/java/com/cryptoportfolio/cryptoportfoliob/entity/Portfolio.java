@@ -5,8 +5,6 @@ import java.util.Map;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.cryptoportfolio.cryptoportfoliob.dto.UserRegistrationDTO;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,12 +18,5 @@ public class Portfolio {
 	private String name;
 	private String password;	
 	private Map<String,String> coins;
-	
-	public Portfolio(UserRegistrationDTO user) {
-		this.id = user.getId();
-		this.name = user.getName();
-		this.username= user.getUsername();
-		this.password=user.getPassword();
-	}
 
 }
