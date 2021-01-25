@@ -47,6 +47,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 			cookieJwt = WebUtils.getCookie(request, "jwt");
 			jwt = cookieJwt.getValue();
 			username = jwtUtil.extractUsername(jwt);
+			logger.info("Cookie Found " + jwt.toString());
 		} else {
 			logger.info("Cookie not found");
 		}

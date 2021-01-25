@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.WebUtils;
 
 import com.cryptoportfolio.cryptoportfoliob.security.AuthenticationRequest;
+
 import com.cryptoportfolio.cryptoportfoliob.security.JwtUtil;
 import com.cryptoportfolio.cryptoportfoliob.security.MyUserDetailsService;
 
@@ -44,13 +45,17 @@ public class AuthenticationController {
 		final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
 
 		final String jwt = jwtTokenUtil.generateToken(userDetails);
-
+		
+		Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
+		
 		Cookie cookie = new Cookie("jwt", jwt);
 		cookie.setMaxAge(30*60);
-		cookie.setSecure(false);
+		cookie.setSecure(true);//----------> need to set this as false for localhost connections. set as true for https connections 
 		cookie.setPath("/");
 		cookie.setHttpOnly(true);		
 
+		logger.info("Inside Authentication. Cookie added.");
+		
 		res.addCookie(cookie);	
 
 		return;
