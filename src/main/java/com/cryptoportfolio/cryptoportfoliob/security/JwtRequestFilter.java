@@ -8,6 +8,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -36,15 +38,17 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 		String jwt = null;
 		Cookie cookieJwt = null;
 
-		/*
-		 * Logger logger = LoggerFactory.getLogger(UserController.class);
-		 * logger.info("Cookie read : " + cookie.getValue().toString());
-		 */
+		
+		Logger logger = LoggerFactory.getLogger(JwtRequestFilter.class);
+		//logger.info("Cookie read : " + cookie.getValue().toString());
+		logger.info("Inside Filter");
 
 		if (WebUtils.getCookie(request, "jwt") != null) {
 			cookieJwt = WebUtils.getCookie(request, "jwt");
 			jwt = cookieJwt.getValue();
 			username = jwtUtil.extractUsername(jwt);
+		} else {
+			logger.info("Cookie not found");
 		}
 
 		/*
