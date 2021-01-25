@@ -23,7 +23,6 @@ import com.cryptoportfolio.cryptoportfoliob.security.JwtUtil;
 import com.cryptoportfolio.cryptoportfoliob.security.MyUserDetailsService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
 public class AuthenticationController {
 
 	@Autowired
