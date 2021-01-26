@@ -1,6 +1,7 @@
 package com.cryptoportfolio.cryptoportfoliob.security;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,12 +48,12 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.cors().and().csrf().disable().authorizeRequests().antMatchers("/authenticate").permitAll()
+		http.csrf().disable().authorizeRequests().antMatchers("/authenticate").permitAll()
 		.antMatchers("/hello").permitAll()
 		.anyRequest().authenticated().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().requiresChannel()
 	      .requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null)
 	      .requiresSecure();
-		
+		http.cors();
 		http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 		
 		http.headers().frameOptions().disable();
@@ -61,9 +62,9 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
 	    CorsConfiguration configuration = new CorsConfiguration();
-	    configuration.setAllowedOrigins(List.of("*"));
+	    //configuration.setAllowedOrigins(List.of("*"));
 	    //configuration.addAllowedOrigin("*"); // --> didnt work. Still had Cors error
-	    //configuration.setAllowedOrigins(Collections.singletonList("http://localhost:3000")); --> this was previously set changed to above for deploying to heroku
+	    configuration.setAllowedOrigins(Collections.singletonList("http://localhost:3000")); //--> this was previously set changed to above for deploying to heroku
 	    configuration.setAllowedMethods(Arrays.asList("GET", "POST", "OPTIONS", "DELETE", "PUT", "PATCH"));
 	    configuration.addAllowedHeader("*");
 	    //configuration.setAllowedHeaders(Arrays.asList("X-Requested-With", "Origin", "Content-Type", "Accept", "Authorization"));
