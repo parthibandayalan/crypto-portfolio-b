@@ -64,7 +64,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 	    CorsConfiguration configuration = new CorsConfiguration();
 	    //configuration.setAllowedOrigins(List.of("*"));
 	    //configuration.addAllowedOrigin("*"); // --> didnt work. Still had Cors error
-	    configuration.setAllowedOrigins(Collections.singletonList("http://localhost:3000")); //--> this was previously set changed to above for deploying to heroku
+	    configuration.setAllowedOrigins(List.of("http://localhost:3000","https://pdcryptoportfolio.herokuapp.com")); //--> this was previously set changed to above for deploying to heroku
 	    configuration.setAllowedMethods(Arrays.asList("GET", "POST", "OPTIONS", "DELETE", "PUT", "PATCH"));
 	    configuration.addAllowedHeader("*");
 	    //configuration.setAllowedHeaders(Arrays.asList("X-Requested-With", "Origin", "Content-Type", "Accept", "Authorization"));
