@@ -61,7 +61,8 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
 	    CorsConfiguration configuration = new CorsConfiguration();
-	    configuration.setAllowedOrigins(Collections.singletonList("http://localhost:3000")); // todo properties by environment
+	    configuration.addAllowedOrigin("*"); // todo properties by environment
+	    //configuration.setAllowedOrigins(Collections.singletonList("http://localhost:3000")); --> this was previously set changed to above for deploying to heroku
 	    configuration.setAllowedMethods(Arrays.asList("GET", "POST", "OPTIONS", "DELETE", "PUT", "PATCH"));
 	    configuration.setAllowedHeaders(Arrays.asList("X-Requested-With", "Origin", "Content-Type", "Accept", "Authorization"));
 	    configuration.setAllowCredentials(true);
