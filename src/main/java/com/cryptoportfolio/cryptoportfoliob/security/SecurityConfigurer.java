@@ -1,7 +1,7 @@
 package com.cryptoportfolio.cryptoportfoliob.security;
 
 import java.util.Arrays;
-import java.util.Collections;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -61,10 +61,12 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
 	    CorsConfiguration configuration = new CorsConfiguration();
-	    configuration.addAllowedOrigin("*"); // todo properties by environment
+	    configuration.setAllowedOrigins(List.of("*"));
+	    //configuration.addAllowedOrigin("*"); // --> didnt work. Still had Cors error
 	    //configuration.setAllowedOrigins(Collections.singletonList("http://localhost:3000")); --> this was previously set changed to above for deploying to heroku
 	    configuration.setAllowedMethods(Arrays.asList("GET", "POST", "OPTIONS", "DELETE", "PUT", "PATCH"));
-	    configuration.setAllowedHeaders(Arrays.asList("X-Requested-With", "Origin", "Content-Type", "Accept", "Authorization"));
+	    configuration.addAllowedHeader("*");
+	    //configuration.setAllowedHeaders(Arrays.asList("X-Requested-With", "Origin", "Content-Type", "Accept", "Authorization"));
 	    configuration.setAllowCredentials(true);
 	    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 	    source.registerCorsConfiguration("/**", configuration);
