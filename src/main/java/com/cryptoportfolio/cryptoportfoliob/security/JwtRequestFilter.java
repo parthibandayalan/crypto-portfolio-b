@@ -1,6 +1,7 @@
 package com.cryptoportfolio.cryptoportfoliob.security;
 
 import java.io.IOException;
+import java.util.Enumeration;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -19,7 +20,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.WebUtils;
 
-
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 	@Autowired
@@ -32,15 +32,31 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 
-		final String authorizationHeader = request.getHeader("Authorization");
+		logger.info("Inside Filter " + request.getMethod().toString());
+		
+		final String authorizationHeader = request.getHeader("Authorization") != null
+				? request.getHeader("Authorization").toString()
+				: "null";
+		logger.info("Authorization : " + authorizationHeader.toString());
+
+		final String testHeader = request.getHeader("TestHeader") != null ? request.getHeader("TestHeader").toString()
+				: "null";
+		logger.info("TestHeader : " + testHeader.toString());
+
+		logger.info("Headers : ");
+		Enumeration<String> headerNames = request.getHeaderNames();
+		while (headerNames.hasMoreElements()) {
+			String headerName = headerNames.nextElement();
+			String headerValue = request.getHeader(headerName);
+			logger.info(headerName + " : " + headerValue);
+		}
 
 		String username = null;
 		String jwt = null;
 		Cookie cookieJwt = null;
 
-		
 		Logger logger = LoggerFactory.getLogger(JwtRequestFilter.class);
-		//logger.info("Cookie read : " + cookie.getValue().toString());
+		// logger.info("Cookie read : " + cookie.getValue().toString());
 		logger.info("Inside Filter");
 
 		if (WebUtils.getCookie(request, "jwt") != null) {

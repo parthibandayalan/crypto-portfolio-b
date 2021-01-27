@@ -50,28 +50,30 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable().authorizeRequests().antMatchers("/authenticate").permitAll()
 		.antMatchers("/hello").permitAll()
-		.anyRequest().authenticated().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().requiresChannel()
-	      .requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null)
-	      .requiresSecure();
-		http.cors();
+		.anyRequest().authenticated().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		
+//		.and().requiresChannel()
+//	      .requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null)
+//	      .requiresSecure();
+		
 		http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 		
-		http.headers().frameOptions().disable();
+		//http.headers()..frameOptions().sameOrigin();
 	}
 	
-	@Bean
-	CorsConfigurationSource corsConfigurationSource() {
-	    CorsConfiguration configuration = new CorsConfiguration();
-	    //configuration.setAllowedOrigins(List.of("*"));
-	    //configuration.addAllowedOrigin("*"); // --> didnt work. Still had Cors error
-	    configuration.setAllowedOrigins(List.of("http://localhost:3000","https://pdcryptoportfolio.herokuapp.com")); //--> this was previously set changed to above for deploying to heroku
-	    configuration.setAllowedMethods(Arrays.asList("GET", "POST", "OPTIONS", "DELETE", "PUT", "PATCH"));
-	    configuration.addAllowedHeader("*");
-	    //configuration.setAllowedHeaders(Arrays.asList("X-Requested-With", "Origin", "Content-Type", "Accept", "Authorization"));
-	    configuration.setAllowCredentials(true);
-	    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-	    source.registerCorsConfiguration("/**", configuration);
-	    return source;
-	}
+//	@Bean
+//	CorsConfigurationSource corsConfigurationSource() {
+//	    CorsConfiguration configuration = new CorsConfiguration();
+//	    //configuration.setAllowedOrigins(List.of("*"));
+//	    //configuration.addAllowedOrigin("*"); // --> didnt work. Still had Cors error
+//	    configuration.setAllowedOrigins(List.of("http://localhost:3000","https://pdcryptoportfolio.herokuapp.com")); //--> this was previously set changed to above for deploying to heroku
+//	    configuration.setAllowedMethods(Arrays.asList("GET", "POST", "OPTIONS", "DELETE", "PUT", "PATCH"));
+//	    //configuration.addAllowedHeader("*");
+//	    configuration.setAllowedHeaders(Arrays.asList("X-Requested-With", "Origin", "Content-Type", "Accept", "Authorization","TestHeader"));
+//	    configuration.setAllowCredentials(true);
+//	    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//	    source.registerCorsConfiguration("/**", configuration);
+//	    return source;
+//	}
 
 }

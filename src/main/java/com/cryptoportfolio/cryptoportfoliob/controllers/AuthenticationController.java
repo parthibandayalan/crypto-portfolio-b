@@ -22,6 +22,8 @@ import com.cryptoportfolio.cryptoportfoliob.security.AuthenticationRequest;
 import com.cryptoportfolio.cryptoportfoliob.security.JwtUtil;
 import com.cryptoportfolio.cryptoportfoliob.security.MyUserDetailsService;
 
+
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class AuthenticationController {
 
@@ -58,13 +60,17 @@ public class AuthenticationController {
 		
 		res.addCookie(cookie);
 		
+		res.setStatus(HttpServletResponse.SC_OK);
+		res.getWriter().write("jwt : "+jwt.toString());
+		res.getWriter().flush();
+		
 		//////////////////
-		Cookie cookieNew = new Cookie("Bearer", jwt);
-		cookieNew.setMaxAge(30*60);
-		cookieNew.setSecure(false);//----------> need to set this as false for localhost connections. set as true for https connections 
-		cookieNew.setPath("/");
-		//cookieNew.setDomain("localhost");		
-		res.addCookie(cookieNew);
+//		Cookie cookieNew = new Cookie("Bearer", jwt);
+//		cookieNew.setMaxAge(30*60);
+//		cookieNew.setSecure(false);//----------> need to set this as false for localhost connections. set as true for https connections 
+//		cookieNew.setPath("/");
+//		//cookieNew.setDomain("localhost");		
+//		res.addCookie(cookieNew);
 		//////////////////
 
 		return;
