@@ -53,7 +53,7 @@ public class AuthenticationController {
 		cookie.setMaxAge(30*60);
 		cookie.setSecure(false);//----------> need to set this as false for localhost connections. set as true for https connections 
 		cookie.setPath("/");
-		cookie.setDomain("localhost");
+		//cookie.setDomain("localhost");
 		cookie.setHttpOnly(true);	
 		
 		logger.info("Inside Authentication. Cookie added.");
