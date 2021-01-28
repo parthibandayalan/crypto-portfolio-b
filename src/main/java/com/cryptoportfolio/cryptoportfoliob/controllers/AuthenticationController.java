@@ -51,10 +51,10 @@ public class AuthenticationController {
 		
 		Cookie cookie = new Cookie("jwt", jwt);
 		cookie.setMaxAge(30*60);
-		cookie.setSecure(false);//----------> need to set this as false for localhost connections. set as true for https connections 
+		cookie.setSecure(true);//----------> need to set this as false for localhost connections. set as true for https connections 
 		cookie.setPath("/");
 		//cookie.setDomain("localhost");
-		//cookie.setHttpOnly(true);	
+		cookie.setHttpOnly(true);	
 		
 		logger.info("Inside Authentication. Cookie added.");
 		
