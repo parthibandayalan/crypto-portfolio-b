@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -49,16 +51,26 @@ public class AuthenticationController {
 		
 		Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
 		
-		Cookie cookie = new Cookie("jwt", jwt);
-		cookie.setMaxAge(30*60);
-		cookie.setSecure(true);//----------> need to set this as false for localhost connections. set as true for https connections 
-		cookie.setPath("/");
-		//cookie.setDomain("localhost");
-		cookie.setHttpOnly(true);	
+//		Cookie cookie = new Cookie("jwt", jwt);
+//		cookie.setMaxAge(30*60);
+//		cookie.setSecure(false);//----------> need to set this as false for localhost connections. set as true for https connections 
+//		cookie.setPath("/");
+//		//cookie.setDomain("localhost");
+//		cookie.setHttpOnly(true);
 		
+		ResponseCookie cookie = ResponseCookie.from("jwt", jwt)
+	            .maxAge(30*60)	            
+	            .sameSite("None")
+	            .secure(false)
+	            .path("/")
+	            .build();
+		
+	 
+		
+		res.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 		logger.info("Inside Authentication. Cookie added.");
 		
-		res.addCookie(cookie);
+		//res.addCookie(cookie);
 		
 		res.setStatus(HttpServletResponse.SC_OK);
 		res.getWriter().write("jwt : "+jwt.toString());

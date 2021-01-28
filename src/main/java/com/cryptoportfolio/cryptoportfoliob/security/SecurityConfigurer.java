@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -58,7 +59,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 		http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 		http.cors();
 		
-		//http.headers()..frameOptions().sameOrigin();
+		//http.headers().frameOptions().sameOrigin().disable();
 	}
 	
 //	@Bean
@@ -87,7 +88,8 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
         configuration.setAllowCredentials(true);
         // setAllowedHeaders is important! Without it, OPTIONS preflight request
         // will fail with 403 Invalid CORS request
-        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type",HttpHeaders.COOKIE));
+        configuration.setExposedHeaders(Arrays.asList(HttpHeaders.SET_COOKIE));
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
