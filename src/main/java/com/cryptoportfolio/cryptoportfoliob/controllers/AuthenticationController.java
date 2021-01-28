@@ -61,7 +61,7 @@ public class AuthenticationController {
 		ResponseCookie cookie = ResponseCookie.from("jwt", jwt)
 	            .maxAge(30*60)	            
 	            .sameSite("None")
-	            .secure(false)
+	            .secure(true)
 	            .path("/")
 	            .build();
 		
