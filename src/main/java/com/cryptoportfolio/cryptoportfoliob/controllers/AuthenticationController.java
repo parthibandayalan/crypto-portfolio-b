@@ -54,7 +54,7 @@ public class AuthenticationController {
 		cookie.setSecure(false);//----------> need to set this as false for localhost connections. set as true for https connections 
 		cookie.setPath("/");
 		//cookie.setDomain("localhost");
-		cookie.setHttpOnly(true);	
+		//cookie.setHttpOnly(true);	
 		
 		logger.info("Inside Authentication. Cookie added.");
 		
