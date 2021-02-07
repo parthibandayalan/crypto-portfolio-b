@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -35,6 +36,8 @@ public class AuthenticationController {
 	MyUserDetailsService userDetailsService;
 	@Autowired
 	JwtUtil jwtTokenUtil;
+	@Value("${cookie.secure.value}")
+	private Boolean boolSecure;
 
 	@PostMapping("/authenticate")
 	public void createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest,
@@ -58,23 +61,30 @@ public class AuthenticationController {
 //		//cookie.setDomain("localhost");
 //		cookie.setHttpOnly(true);
 		
+//		ResponseCookie cookie = ResponseCookie.from("jwt", jwt)
+//	            .maxAge(30*60)	            
+//	            .sameSite("None")
+//	            .secure(true)
+//	            .path("/")
+//	            .build();
+		//when same site is none secure should be true
+		logger.info("Set Secure value : "+boolSecure.toString());
 		ResponseCookie cookie = ResponseCookie.from("jwt", jwt)
-	            .maxAge(30*60)	            
-	            .sameSite("None")
-	            .secure(true)
+	            .maxAge(30*60)
+	            .httpOnly(true)
+	            .secure(boolSecure)//set this as true while being deployed
 	            .path("/")
 	            .build();
-		
 	 
 		
 		res.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 		logger.info("Inside Authentication. Cookie added.");
 		
 		//res.addCookie(cookie);
-		
-		res.setStatus(HttpServletResponse.SC_OK);
-		res.getWriter().write("jwt : "+jwt.toString());
-		res.getWriter().flush();
+//		
+//		res.setStatus(HttpServletResponse.SC_OK);
+//		res.getWriter().write("jwt : "+jwt.toString());
+//		res.getWriter().flush();
 		
 		//////////////////
 //		Cookie cookieNew = new Cookie("Bearer", jwt);
@@ -117,7 +127,7 @@ public class AuthenticationController {
 				
 				Cookie cookie = new Cookie("jwt", refreshedToken);
 				cookie.setMaxAge(5*60);
-				cookie.setSecure(false);
+				cookie.setSecure(boolSecure);
 				cookie.setPath("/");
 				cookie.setHttpOnly(true);
 				
@@ -161,7 +171,7 @@ public class AuthenticationController {
 				
 				Cookie cookie = new Cookie("jwt", refreshedToken);
 				cookie.setMaxAge(0);
-				cookie.setSecure(false);
+				cookie.setSecure(boolSecure);
 				cookie.setPath("/");
 				cookie.setHttpOnly(true);
 				

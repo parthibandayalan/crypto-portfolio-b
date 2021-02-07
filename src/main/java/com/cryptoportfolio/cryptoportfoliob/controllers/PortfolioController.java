@@ -42,12 +42,19 @@ public class PortfolioController {
 		return portfolioService.getPortfolioByUsername(username);
 	}
 	
+	@PostMapping("/portfolio/checkusername")
+	public ResponseEntity<Boolean> checkUsername(@RequestBody Map<String,Object> payload){
+		String username = payload.get("username").toString();
+//		logger.info("Username : "+username.toString());
+		return portfolioService.checkUsername(username);
+	}
+	
 	@PostMapping("/coins/add")
 	public ResponseEntity<String> addCoins(@RequestBody Map<String, Object> payload){
 		String coin = payload.get("coin").toString();
 		String tokens = payload.get("tokens").toString();
 		String username = payload.get("username").toString();
-		logger.info("Cookie read : " + payload.toString());
+//		logger.info("Cookie read : " + payload.toString());
 		return portfolioService.addCoin(coin,tokens,username);
 	}
 	

@@ -32,24 +32,24 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 
-		logger.info("Inside Filter " + request.getMethod().toString());
+//		logger.info("Inside Filter " + request.getMethod().toString());
 		
 		final String authorizationHeader = request.getHeader("Authorization") != null
 				? request.getHeader("Authorization").toString()
 				: "null";
-		logger.info("Authorization : " + authorizationHeader.toString());
+//		logger.info("Authorization : " + authorizationHeader.toString());
 
 		final String testHeader = request.getHeader("TestHeader") != null ? request.getHeader("TestHeader").toString()
 				: "null";
-		logger.info("TestHeader : " + testHeader.toString());
+//		logger.info("TestHeader : " + testHeader.toString());
 
-		logger.info("Headers : ");
-		Enumeration<String> headerNames = request.getHeaderNames();
-		while (headerNames.hasMoreElements()) {
-			String headerName = headerNames.nextElement();
-			String headerValue = request.getHeader(headerName);
-			logger.info(headerName + " : " + headerValue);
-		}
+//		logger.info("Headers : ");
+//		Enumeration<String> headerNames = request.getHeaderNames();
+//		while (headerNames.hasMoreElements()) {
+//			String headerName = headerNames.nextElement();
+//			String headerValue = request.getHeader(headerName);
+//			logger.info(headerName + " : " + headerValue);
+//		}
 
 		String username = null;
 		String jwt = null;
@@ -57,15 +57,15 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
 		Logger logger = LoggerFactory.getLogger(JwtRequestFilter.class);
 		// logger.info("Cookie read : " + cookie.getValue().toString());
-		logger.info("Inside Filter");
+//		logger.info("Inside Filter");
 
 		if (WebUtils.getCookie(request, "jwt") != null) {
 			cookieJwt = WebUtils.getCookie(request, "jwt");
 			jwt = cookieJwt.getValue();
 			username = jwtUtil.extractUsername(jwt);
-			logger.info("Cookie Found " + jwt.toString());
+//			logger.info("Cookie Found " + jwt.toString());
 		} else {
-			logger.info("Cookie not found");
+//			logger.info("Cookie not found");
 		}
 
 		/*

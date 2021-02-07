@@ -48,8 +48,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable().authorizeRequests().antMatchers("/authenticate").permitAll()		
-		.antMatchers("/hello").permitAll()
+		http.csrf().disable().authorizeRequests().antMatchers("/authenticate","/portfolio/checkusername","/portfolio/create").permitAll().and().authorizeRequests()
 		.anyRequest().authenticated().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		
 //		.and().requiresChannel()
