@@ -60,21 +60,22 @@ public class AuthenticationController {
 //		cookie.setPath("/");
 //		//cookie.setDomain("localhost");
 //		cookie.setHttpOnly(true);
-		
-//		ResponseCookie cookie = ResponseCookie.from("jwt", jwt)
-//	            .maxAge(30*60)	            
-//	            .sameSite("None")
-//	            .secure(true)
-//	            .path("/")
-//	            .build();
-		//when same site is none secure should be true
-		logger.info("Set Secure value : "+boolSecure.toString());
+		//use below while deploying into production
 		ResponseCookie cookie = ResponseCookie.from("jwt", jwt)
-	            .maxAge(30*60)
-	            .httpOnly(true)
-	            .secure(boolSecure)//set this as true while being deployed
+	            .maxAge(30*60)	            
+	            .sameSite("None")
+	            .secure(true)
 	            .path("/")
 	            .build();
+		//when same site is none secure should be true
+//		logger.info("Set Secure value : "+boolSecure.toString());
+		//use below while deploying locally
+//		ResponseCookie cookie = ResponseCookie.from("jwt", jwt)
+//	            .maxAge(30*60)
+//	            .httpOnly(true)
+//	            .secure(boolSecure)//set this as true while being deployed
+//	            .path("/")
+//	            .build();
 	 
 		
 		res.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
@@ -123,17 +124,36 @@ public class AuthenticationController {
 			logger.info("username received"+userDetails.getUsername());
 			if (jwtTokenUtil.validateToken(jwt, userDetails)) {
 
-				String refreshedToken = jwtTokenUtil.refreshToken(jwt);
+				//String refreshedToken = jwtTokenUtil.refreshToken(jwt);
+				//use below while deploying into production
+				ResponseCookie cookie = ResponseCookie.from("jwt", jwt)
+			            .maxAge(30*60)	            
+			            .sameSite("None")
+			            .secure(true)
+			            .path("/")
+			            .build();
+				//when same site is none secure should be true
+//				logger.info("Set Secure value : "+boolSecure.toString());
+				//use below while deploying locally
+//				ResponseCookie cookie = ResponseCookie.from("jwt", jwt)
+//			            .maxAge(30*60)
+//			            .httpOnly(true)
+//			            .secure(boolSecure)//set this as true while being deployed
+//			            .path("/")
+//			            .build();
+			 
 				
-				Cookie cookie = new Cookie("jwt", refreshedToken);
-				cookie.setMaxAge(5*60);
-				cookie.setSecure(boolSecure);
-				cookie.setPath("/");
-				cookie.setHttpOnly(true);
+				res.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 				
-				logger.info("Cookie refreshed : " + cookie.toString());
-
-				res.addCookie(cookie);
+//				Cookie cookie = new Cookie("jwt", refreshedToken);
+//				cookie.setMaxAge(5*60);
+//				cookie.setSecure(boolSecure);
+//				cookie.setPath("/");
+//				cookie.setHttpOnly(true);
+//				
+//				logger.info("Cookie refreshed : " + cookie.toString());
+//
+//				res.addCookie(cookie);
 				
 				return;
 				/*UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
@@ -167,17 +187,37 @@ public class AuthenticationController {
 			
 			if (jwtTokenUtil.validateToken(jwt, userDetails)) {
 
-				String refreshedToken = jwtTokenUtil.refreshToken(jwt);
 				
-				Cookie cookie = new Cookie("jwt", refreshedToken);
-				cookie.setMaxAge(0);
-				cookie.setSecure(boolSecure);
-				cookie.setPath("/");
-				cookie.setHttpOnly(true);
+				ResponseCookie cookie = ResponseCookie.from("jwt", jwt)
+			            .maxAge(30*60)	            
+			            .sameSite("None")
+			            .secure(true)
+			            .path("/")
+			            .build();
+				//when same site is none secure should be true
+//				logger.info("Set Secure value : "+boolSecure.toString());
+				//use below while deploying locally
+//				ResponseCookie cookie = ResponseCookie.from("jwt", jwt)
+//			            .maxAge(30*60)
+//			            .httpOnly(true)
+//			            .secure(boolSecure)//set this as true while being deployed
+//			            .path("/")
+//			            .build();
+			 
 				
-				//logger.info("Cookie refreshed : " + cookie.toString());
-
-				res.addCookie(cookie);
+				res.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+				
+//				String refreshedToken = jwtTokenUtil.refreshToken(jwt);
+//				
+//				Cookie cookie = new Cookie("jwt", refreshedToken);
+//				cookie.setMaxAge(0);
+//				cookie.setSecure(boolSecure);
+//				cookie.setPath("/");
+//				cookie.setHttpOnly(true);
+//				
+//				//logger.info("Cookie refreshed : " + cookie.toString());
+//
+//				res.addCookie(cookie);
 				
 				return;
 				/*UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
