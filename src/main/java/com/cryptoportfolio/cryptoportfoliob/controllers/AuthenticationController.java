@@ -78,6 +78,7 @@ public class AuthenticationController {
 //	            .build();
 	 
 		
+
 		res.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 		logger.info("Inside Authentication. Cookie added.");
 		
